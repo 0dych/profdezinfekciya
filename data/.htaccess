@@ -1,0 +1,10 @@
+﻿# Заборона прямого доступу до файлів заявок
+<Files "orders.json">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Apache 2.4+
+<Files "orders.json">
+    Require all denied
+</Files>

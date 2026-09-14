@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель керування | ТОВ «ПРОФДЕЗІНФЕКЦІЯ ЗАКАРПАТТЯ»</title>
+  <link rel="stylesheet" href="admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Захисний екран авторизації -->
+  <div class="admin-lock-screen" id="adminLockScreen">
+    <div class="lock-box">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔒</div>
+      <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--admin-dark); margin-bottom: 0.5rem;">
+        Вхід до панелі керування
+      </h2>
+      <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 1.5rem;">
+        Введіть PIN-код доступу (за замовчуванням: <strong>1234</strong>)
+      </p>
+      <input type="password" id="adminPinInput" class="admin-input" placeholder="Введіть PIN" style="text-align: center; font-size: 1.25rem; letter-spacing: 0.2em; margin-bottom: 1rem;" autofocus>
+      <p id="adminPinError" style="display: none; color: var(--admin-danger); font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem;">
+        Невірний PIN-код! Спробуйте ще раз.
+      </p>
+      <button type="button" id="adminLoginBtn" class="save-btn" style="width: 100%; justify-content: center;">
+        Увійти
+      </button>
+    </div>
+  </div>
+
+  <!-- Верхній рядок адмінки -->
+  <header class="admin-header">
+    <div class="admin-header-title">
+      <img src="../logo.png" alt="Логотип" style="width: 38px; height: 38px; border-radius: 50%; object-fit: contain; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
+      <span>ПРОФДЕЗІНФЕКЦІЯ ЗАКАРПАТТЯ</span>
+      <span class="admin-badge">Панель керування</span>
+    </div>
+    <div class="admin-nav">
+      <a href="../index.html" target="_blank">🌐 Відкрити сайт</a>
+      <button type="button" id="adminLogoutBtn">Вийти</button>
+    </div>
+  </header>
+
+  <!-- Основний контейнер -->
+  <div class="admin-container">
+    <div class="admin-tabs">
+      <button class="tab-btn active" data-tab="tab-contacts">📞 Контакти та Реквізити</button>
+      <button class="tab-btn" data-tab="tab-socials">💬 Соцмережі та Месенджери</button>
+      <button class="tab-btn" data-tab="tab-home">✨ Головна / Довіра</button>
+      <button class="tab-btn" data-tab="tab-services">🛠️ Послуги</button>
+      <button class="tab-btn" data-tab="tab-products">📦 Товари</button>
+      <button class="tab-btn" data-tab="tab-orders">📥 Заявки <span class="tab-count" id="ordersNewCount" hidden>0</span></button>
+      <button class="tab-btn" data-tab="tab-telegram">✈️ Telegram-бот</button>
+      <button class="tab-btn" data-tab="tab-security">🔐 Безпека</button>
+    </div>
+
+    <!-- Вкладка 1: Контакти та Реквізити -->
+    <div class="tab-content active" id="tab-contacts">
+      <div class="admin-card">
+        <div class="admin-card-title">Офіційні реквізити компанії</div>
+        <div class="form-grid">
+          <div>
+            <label class="admin-label">Назва компанії (укр):</label>
+            <input type="text" id="c_name" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Міжнародна назва (англ):</label>
+            <input type="text" id="c_nameEn" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Код ЄДРПОУ:</label>
+            <input type="text" id="c_edrpou" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Виписка з ЄДР:</label>
+            <input type="text" id="c_extract" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Керівник (Директор):</label>
+            <input type="text" id="c_director" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Регіон діяльності:</label>
+            <input type="text" id="c_region" class="admin-input">
+          </div>
+          <div class="form-group-full">
+            <label class="admin-label">Юридична та фактична адреса:</label>
+            <input type="text" id="c_address" class="admin-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-title">Телефони та зв'язок</div>
+        <div class="form-grid">
+          <div>
+            <label class="admin-label">Основний номер телефону (гаряча лінія):</label>
+            <input type="text" id="c_phone1" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Додатковий номер телефону:</label>
+            <input type="text" id="c_phone2" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Офіційний Email:</label>
+            <input type="email" id="c_email" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Графік роботи:</label>
+            <input type="text" id="c_workHours" class="admin-input">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Вкладка 2: Соцмережі та Месенджери -->
+    <div class="tab-content" id="tab-socials">
+      <div class="admin-card">
+        <div class="admin-card-title">Посилання для швидкого зв'язку (Месенджери)</div>
+        <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 1.5rem;">
+          Ці посилання використовуються в плаваючих кнопках сайту, шапці та контактних блоках.
+        </p>
+        <div class="form-grid">
+          <div>
+            <label class="admin-label">Viber (формат посилання або номер):</label>
+            <input type="text" id="s_viber" class="admin-input" placeholder="viber://chat?number=%2B380677447749">
+          </div>
+          <div>
+            <label class="admin-label">Telegram (посилання на чат або контакт):</label>
+            <input type="text" id="s_telegram" class="admin-input" placeholder="https://t.me/+380677447749">
+          </div>
+          <div>
+            <label class="admin-label">WhatsApp (посилання wa.me):</label>
+            <input type="text" id="s_whatsapp" class="admin-input" placeholder="https://wa.me/380677447749">
+          </div>
+          <div>
+            <label class="admin-label">Facebook сторінка:</label>
+            <input type="text" id="s_facebook" class="admin-input" placeholder="https://facebook.com/...">
+          </div>
+          <div class="form-group-full">
+            <label class="admin-label">Instagram профіль:</label>
+            <input type="text" id="s_instagram" class="admin-input" placeholder="https://instagram.com/...">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Вкладка 3: Послуги -->
+    <div class="tab-content" id="tab-home">
+      <div class="admin-card">
+        <div class="admin-card-title">Блок «Нам довіряють» на головній</div>
+        <p class="admin-help">Тут краще показувати факти: стандарти, географію, документи та категорії клієнтів. Не додавайте логотипи чи назви клієнтів без їхньої згоди.</p>
+        <div class="form-grid">
+          <div>
+            <label class="admin-label">Надзаголовок:</label>
+            <input type="text" id="t_eyebrow" class="admin-input">
+          </div>
+          <div>
+            <label class="admin-label">Заголовок:</label>
+            <input type="text" id="t_title" class="admin-input">
+          </div>
+          <div class="form-group-full">
+            <label class="admin-label">Підзаголовок:</label>
+            <textarea id="t_subtitle" class="admin-textarea" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="admin-card">
+        <div class="admin-card-title">Переваги / підтвердження довіри</div>
+        <div id="trustListContainer"></div>
+        <button type="button" class="add-item-btn" onclick="addNewTrustItem()">+ Додати пункт</button>
+      </div>
+    </div>
+
+    <!-- Вкладка 3: Послуги -->
+    <div class="tab-content" id="tab-services">
+      <div class="admin-card">
+        <div class="admin-card-title">Редагування послуг</div>
+        <div id="servicesListContainer"></div>
+        <button type="button" class="add-item-btn" onclick="addNewService()">+ Додати нову послугу</button>
+      </div>
+    </div>
+
+    <!-- Вкладка 4: Товари -->
+    <div class="tab-content" id="tab-products">
+      <div class="admin-card">
+        <div class="admin-card-title">Редагування товарів та обладнання</div>
+        <div id="productsListContainer"></div>
+        <button type="button" class="add-item-btn" onclick="addNewProduct()">+ Додати новий товар</button>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-orders">
+      <div class="admin-card">
+        <div class="orders-heading">
+          <div>
+            <div class="admin-card-title" style="margin-bottom: 0.35rem; border: 0; padding: 0;">Заявки з сайту</div>
+            <p class="admin-help" id="ordersSummary">Завантаження заявок…</p>
+          </div>
+          <button type="button" class="download-btn" id="ordersRefreshBtn">↻ Оновити</button>
+        </div>
+        <div id="ordersContainer" class="orders-container"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-telegram">
+      <div class="admin-card">
+        <div class="admin-card-title">Сповіщення про нові заявки в Telegram</div>
+        <p class="admin-help">Після налаштування кожна нова заявка одночасно збережеться в адмінці та надійде в обраний чат Telegram. Токен зберігається окремо на PHP-сервері й не потрапляє в публічний файл сайту.</p>
+        <div class="form-grid">
+          <div>
+            <label class="admin-label">Токен бота:</label>
+            <input type="password" id="tg_botToken" class="admin-input" placeholder="123456:ABC-DEF…" autocomplete="new-password">
+          </div>
+          <div>
+            <label class="admin-label">Chat ID / ID групи:</label>
+            <input type="text" id="tg_chatId" class="admin-input" placeholder="Наприклад: -1001234567890">
+          </div>
+        </div>
+        <div class="telegram-actions">
+          <button type="button" id="telegramSaveBtn" class="save-btn">Зберегти Telegram</button>
+          <span id="telegramStatus" class="admin-help"></span>
+        </div>
+        <ol class="admin-steps">
+          <li>Створіть бота через <strong>@BotFather</strong> та скопіюйте токен.</li>
+          <li>Додайте бота в особистий чат або групу й надішліть йому будь-яке повідомлення.</li>
+          <li>Вставте токен і Chat ID сюди та натисніть «Зберегти Telegram».</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-security">
+      <div class="admin-card">
+        <div class="admin-card-title">Зміна PIN-коду адмінки</div>
+        <p class="admin-help">Для захисту заявок використовуйте унікальний PIN щонайменше з 6 цифр. Сервер зберігає лише його хеш.</p>
+        <div class="form-grid">
+          <div>
+            <label class="admin-label">Новий PIN:</label>
+            <input type="password" id="newAdminPin" class="admin-input" inputmode="numeric" autocomplete="new-password" placeholder="Мінімум 6 цифр">
+          </div>
+          <div>
+            <label class="admin-label">Повторіть PIN:</label>
+            <input type="password" id="confirmAdminPin" class="admin-input" inputmode="numeric" autocomplete="new-password" placeholder="Повторіть PIN">
+          </div>
+        </div>
+        <div class="telegram-actions">
+          <button type="button" id="changePinBtn" class="save-btn">Оновити PIN</button>
+          <span id="pinStatus" class="admin-help"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Нижня плаваюча панель збереження -->
+    <div class="admin-action-bar">
+      <div class="admin-save-actions">
+        <button type="button" id="adminSaveBtn" class="save-btn">💾 Зберегти зміни</button>
+        <button type="button" id="adminDownloadBtn" class="download-btn">📥 Завантажити JSON</button>
+        <span id="adminSaveState" class="save-state">Усі зміни збережені</span>
+      </div>
+      <div>
+        <button type="button" id="adminResetBtn" style="background: none; border: none; color: var(--admin-danger); font-weight: 600; cursor: pointer;">
+          Скинути кеш
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
